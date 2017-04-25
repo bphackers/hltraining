@@ -19,6 +19,11 @@ Jira : https://jira.hyperledger.org
 
 ## Installation
 
+> setup you GOPATH env, in ~/.bashrc :
+
+    export GOPATH=/usr/lib/go-1.6/
+    export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
 clone git repo :
 
     git clone https://github.com/hyperledger/fabric.git
