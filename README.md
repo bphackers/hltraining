@@ -23,6 +23,12 @@ Jira : https://jira.hyperledger.org
 Gerit : https://gerrit.hyperledger.org
 
 ## Installation
+Download and install GO.
+Important : set the following environment variables : 
+
+GOROOT is for compiler/tools that comes from go installation.
+
+GOPATH is for your own go projects / 3rd party libraries (downloaded with "go get").
 
 setup you GOPATH env, in ~/.bashrc :
 
