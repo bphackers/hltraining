@@ -1,0 +1,4 @@
+- hosts: fabric
+  user: root
+  roles:
+    - prerequisite

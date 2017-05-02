@@ -1,0 +1,27 @@
+---
+# tasks file for prerequisite
+
+- name: install tools
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - git
+    - docker.io
+    - python-pip
+
+- name: clone fabric
+  git: repo=https://github.com/hyperledger/fabric.git dest=/root/fabric
+
+- name: Install docker-py (to pull docker images)
+  pip: name=docker-py
+
+- name: pull hyperledger fabric docker images
+  docker_image: name={{ item }} tag=ppc64le-1.0.0-alpha
+  with_items:
+    - hyperledger/fabric-ca
+    - hyperledger/fabric-couchdb
+    - hyperledger/fabric-kafka
+    - hyperledger/fabric-zookeeper
+    - hyperledger/fabric-orderer
+    - hyperledger/fabric-peer
+    - hyperledger/fabric-javaenv
+    - hyperledger/fabric-ccenv
