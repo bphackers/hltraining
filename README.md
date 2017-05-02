@@ -42,3 +42,8 @@ clone git repo :
 then launch : 
 
     fabric/examples/e2e_cli/download-dockerimages.sh
+
+## Tips
+May be you'll need to allow non-root users to access the docker service :
+
+https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
