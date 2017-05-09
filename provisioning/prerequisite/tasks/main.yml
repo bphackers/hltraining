@@ -5,8 +5,30 @@
   apt: pkg={{ item }} state=installed
   with_items:
     - git
+    - zsh
     - docker.io
     - python-pip
+
+- name: Zsh conf
+  template: src=bashrc.j2 dest=/root/.bashrc owner=root group=root
+
+- name: check go extraction
+  stat: path=/opt/go/bin/go
+  register: go_installed
+
+# Install GO
+
+- name : download {{ go }}
+  get_url: url=https://storage.googleapis.com/golang/{{ go }}.tar.gz dest=/tmp/{{ go }}.tar.gz validate_certs=no
+  when: not go_installed.stat.exists and not go_installed.stat.exists
+
+- name: check go extraction
+  stat: path=/tmp/{{ go }}
+  register: go_extracted
+
+- name: unarchive go
+  unarchive: src=/tmp/{{ go }}.tar.gz dest=/opt copy=no
+  when: not go_installed.stat.exists and not go_extracted.stat.exists
 
 - name: clone fabric
   git: repo=https://github.com/hyperledger/fabric.git dest=/root/fabric
