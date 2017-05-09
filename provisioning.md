@@ -45,5 +45,5 @@ Then try to ping your server from yout host
 From your host:
 
     git clone https://github.com/bphackers/hltraining.git
-    cd provisioning
+    cd hltraining/provisioning
     ansible-playbook bootstrap.yml -i hosts -vvvv

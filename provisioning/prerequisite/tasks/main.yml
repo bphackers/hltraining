@@ -8,6 +8,7 @@
     - zsh
     - docker.io
     - python-pip
+    - curl
 
 - name: Zsh conf
   template: src=bashrc.j2 dest=/root/.bashrc owner=root group=root
@@ -37,7 +38,7 @@
   pip: name=docker-py
 
 - name: pull hyperledger fabric docker images
-  docker_image: name={{ item }} tag=ppc64le-1.0.0-alpha
+  docker_image: name={{ item }} tag=x86_64-1.0.0-alpha
   with_items:
     - hyperledger/fabric-ca
     - hyperledger/fabric-couchdb
@@ -47,3 +48,13 @@
     - hyperledger/fabric-peer
     - hyperledger/fabric-javaenv
     - hyperledger/fabric-ccenv
+
+- name: download fabric-sample
+  get_url:
+    url: https://nexus.hyperledger.org/content/repositories/snapshots/sandbox/vex-yul-hyp-jenkins-2/fabric-binaries/release.tar.gz
+    dest: /root/fabric-sample
+
+# - unarchive:
+#     chdir: /root/fabric-sample
+#     src: release.tar.gz
+#     dest: /root/fabric-sample/
