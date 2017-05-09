@@ -74,6 +74,15 @@ Then create the ordering service genesis block and a channel configuration artif
 
 Ordered genesis block is created: /fabric-sample/release/samples/e2e/ordered.block
 
-Create the channel.tx artifact which will be used to create channels in the future
+Create the channel.tx artifact which will be used to create channels in the future. Here the name of the channel is 'mychannel'. Don't put underscore _ in the name of your channel
 
-    ./../../$os_arch/bin/configtxgen -profile TwoOrgs -outputCreateChannelTx channel.tx -channelID my_channel
+    ./../../$os_arch/bin/configtxgen -profile TwoOrgs -outputCreateChannelTx channel.tx -channelID mychannel
+
+Comment this line in /fabric-sample/release/samples/e2e/docker-compose.yaml to go through the commands manually:
+
+    # command: /bin/bash -c './scripts/script.sh ${CHANNEL_NAME}; '
+
+Then start the network
+
+    export ARCH_TAG=$(uname -m)
+    CHANNEL_NAME=mychannel docker-compose -f docker-compose-no-tls.yaml up
