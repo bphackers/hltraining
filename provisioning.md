@@ -1,6 +1,6 @@
 ## Installation on a VPS
 
-Ubuntu 16.04.2 LTS
+tested with Ubuntu 16.04.2 LTS
 Be sure you can connect as root to your server with the password given by your VPS provider
 
 Generate on ssh key pair called 'hltraining' in ~/.ssh on your host:
