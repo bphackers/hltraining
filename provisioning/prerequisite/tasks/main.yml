@@ -9,6 +9,7 @@
     - docker.io
     - python-pip
     - curl
+    - docker-compose
 
 - name: Zsh conf
   template: src=bashrc.j2 dest=/root/.bashrc owner=root group=root
