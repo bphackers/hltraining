@@ -30,28 +30,29 @@ Read provisioning.MD (no yet finished, prefer manual install)
 
 ### Manual install (getting started)
 
-Setup tested on Ubuntu 16.04 64bits, as a user who is sudoer. Copy paste is supposed to work
+Setup tested on Ubuntu 16.04 64bits, as root, on a test server. Copy paste is supposed to work
+Root user has been chosen to fix permission issues, to quicly try Fabric
 
 ###### Install prerequisites
 
 Note: GOROOT is for compiler/tools that comes from go installation. GOPATH is for your own go projects / 3rd party libraries (downloaded with "go get").
 
-
-    sudo apt-get install git docker.io python-pip curl docker-compose curl wget
+    #sudo su -
+    apt-get install git docker.io python-pip curl docker-compose curl wget
     cd /tmp
     wget https://storage.googleapis.com/golang/go1.7.5.linux-amd64.tar.gz
     tar -zxvf go1.7.5.linux-amd64.tar.gz
-    sudo mv go /opt
+    mv go /opt
     echo "export GOROOT=/opt/go" >> ~/.bashrc
     echo "export GOPATH=$GOROOT/bin" >> ~/.bashrc
     echo "export PATH=$PATH:$GOROOT/bin:$GOPATH/bin" >> ~/.bashrc
     source ~/.bashrc
 
-    sudo systemctl enable docker.service
-    sudo service docker start
-    sudo reboot
+    systemctl enable docker.service
+    service docker start
+    reboot
 
-    cd ~
+    #sudo su -
     mkdir fabric-sample
     cd fabric-sample
     curl -L https://nexus.hyperledger.org/content/repositories/snapshots/sandbox/vex-yul-hyp-jenkins-2/fabric-binaries/release.tar.gz -o release.tar.gz 2> /dev/null;  tar -xvf release.tar.gz
@@ -66,13 +67,13 @@ cryptogen - generates the x509 certificates used to identify and authenticate th
 configtxgen - generates the requisite configuration artifacts for orderer bootstrap and channel creation.
 
     os_arch=$(echo "$(uname -s)-amd64" | awk '{print tolower($0)}')
-    export FABRIC_CFG_PATH=$PWD
     cd ~/fabric-sample/release/samples/e2e
 
 
 Generate certs with cryptogen command(new folder wil be created fabric-sample/release/samples/e2e/crypto-config). Then create the ordering service genesis block and a channel configuration artifact with configtxgen command, from the previously generated certs:
 
     ~/fabric-sample/release/$os_arch/bin/cryptogen generate --config=./crypto-config.yaml
+    export FABRIC_CFG_PATH=$PWD
     ~/fabric-sample/release/linux-amd64/bin/configtxgen -profile TwoOrgs -outputBlock orderer.block
 
 Ordered genesis block is created: /fabric-sample/release/samples/e2e/ordered.block
@@ -90,7 +91,16 @@ Then start the network
     export ARCH_TAG=$(uname -m)
     CHANNEL_NAME=mychannel docker-compose -f docker-compose-no-tls.yaml up
 
-I get these errors
+In another shell
+
+    # sudo su -
+    docker exec -it cli bash
+
+## Tips and issues
+
+###### Docker-compose errors
+
+Sometimes these errors appear. Especially when permission problem or when restarting docker-compose 
 
     Error: channel create configuration tx file not found read channel.tx: is a directory
 and
@@ -116,7 +126,8 @@ then launch :
 
     fabric/examples/e2e_cli/download-dockerimages.sh
 
-## Tips and issues
+###### Docker tip
+
 May be you'll need to allow non-root users to access the docker service:
 
 https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
