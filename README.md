@@ -82,7 +82,7 @@ Create the channel.tx artifact which will be used to create channels in the futu
 
     ~/fabric-sample/release/linux-amd64/bin/configtxgen -profile TwoOrgs -outputCreateChannelTx channel.tx -channelID mychannel
 
-Comment this line in ~/fabric-sample/release/samples/e2e/docker-compose.yaml to go through the commands manually with vim or nano (TODO: automate with sed later):
+Comment this line in ~/fabric-sample/release/samples/e2e/docker-compose-no-tls.yaml to go through the commands manually with vim or nano. Notice that it is the no-tls docker-compose (TODO: automate with sed later):
 
     # command: /bin/bash -c './scripts/script.sh ${CHANNEL_NAME}; '
 
@@ -96,11 +96,13 @@ In another shell
     # sudo su -
     docker exec -it cli bash
 
+
+
 ## Tips and issues
 
 ###### Docker-compose errors
 
-Sometimes these errors appear. Especially when permission problem or when restarting docker-compose 
+Sometimes these errors appear. Especially when permission problem or when restarting docker-compose
 
     Error: channel create configuration tx file not found read channel.tx: is a directory
 and
